@@ -11,6 +11,7 @@ import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
 import FontIcon from 'material-ui/FontIcon';
 import ActionFavorite from 'material-ui/svg-icons/action/favorite';
 import ActionFavoriteBorder from 'material-ui/svg-icons/action/favorite-border';
+import TextField from 'material-ui/TextField';
 
 const styles = {
   main: {
@@ -29,6 +30,20 @@ const styles = {
   },
   radioButton:  {
     color: deepOrangeA400
+  },
+  input: {
+    paddingBottom: '2%',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    width: '40%'
+  },
+  container: {display: 'flex',
+              flexWrap: 'wrap',
+              flexDirection: 'column',
+              justifyContent: 'flex-start', 
+              borderWidth: '1px',
+              borderStyle: 'solid',
+              borderRadius: '10px'
   }
 };
 const ages = ["30 ára-","30-37 ára","38-54 ára","55-60 ára","60 ára+"];
@@ -41,7 +56,9 @@ class AboutTeacherView extends Component {
       aldur: props.aldur,
       vinnumatA: props.vinnumatA,
       vinnumatC: props.vinnumatC,
-      onn: props.onn
+      onn: props.onn,
+      errorA: '',
+      errorC: ''
     }
   }
 
@@ -52,15 +69,27 @@ class AboutTeacherView extends Component {
 
   changeOnn = (event,value) =>  {
     const {dispatch} = this.props;
-    console.log(value)
     dispatch(setOnn(value));
   }
+
+  handleChangeA = (event) => { 
+    this.setState({vinnumatA: event.target.value,
+                  errorA: (isNaN(event.target.value.replace(',','.')) || event.target.value.trim() === '')? 'Verður að hafa tölu': ''
+    });
+  };
+
+  handleChangeC = (event) => { 
+    this.setState({vinnumatC: event.target.value,
+                  errorC: (isNaN(event.target.value.replace(',','.')) || event.target.value.trim() === '')? 'Verður að hafa tölu': ''
+    });
+  };
   componentWillReceiveProps(nextProps) {
-    this.setState({...nextProps});
+    this.setState({...nextProps, errorA: '', errorC: ''});
   }
 
   componentWillMount() {
-    this.setState({aldur: this.props.aldur, 
+    this.setState({aldur: this.props.aldur,
+                    errorA: '', 
                     vinnumatA: this.props.vinnumatA, 
                     vinnumatC: this.props.vinnumatC, 
                     onn: this.props.onn});
@@ -73,11 +102,23 @@ class AboutTeacherView extends Component {
     return (
       <div>
         
-        <div style={{display: 'flex',
-                      flexWrap: 'wrap',
-                      justifyContent: 'flex-start'}}
-        >
-          <div>
+        <div style={styles.container}>
+          <div style={styles.input}>
+            <h5 style={{padding: '0%',marginLeft: '0%', marginBottom: '1%', color: deepOrangeA400, fontWeight: 'normal'}}>Önn</h5>
+            <RadioButtonGroup name="Onn" defaultSelected={this.state.onn} onChange={this.changeOnn}>
+              <RadioButton
+                value="vor"
+                label="Vor"
+              />
+              <RadioButton
+                value="haust"
+                label="Haust"
+                style={styles.radioButton}
+              />
+              
+            </RadioButtonGroup>
+          </div>
+          <div style={styles.input}>
             <SelectField
               floatingLabelText="Aldur"
               floatingLabelStyle={{color: deepOrangeA400}}
@@ -91,19 +132,25 @@ class AboutTeacherView extends Component {
             }
             </SelectField>
           </div>
-          <div>
-            <RadioButtonGroup name="Onn" defaultSelected={this.state.onn} onChange={this.changeOnn}>
-              <RadioButton
-                value="vor"
-                label="Vor"
-              />
-              <RadioButton
-                value="haust"
-                label="Haust"
-                style={styles.radioButton}
-              />
-              
-            </RadioButtonGroup>
+          <div style={styles.input}>
+            <TextField
+              value={this.state.vinnumatA}
+              floatingLabelText="Vinnumat A-hluta"
+              floatingLabelStyle={{color: deepOrangeA400}}
+              underlineFocusStyle={{borderColor: deepOrangeA400}}
+              onChange={this.handleChangeA}
+              errorText={this.state.errorA}
+            />
+          </div>
+          <div style={styles.input}>
+            <TextField
+              value={this.state.vinnumatC}
+              floatingLabelText="Vinnumat C-hluta"
+              floatingLabelStyle={{color: deepOrangeA400}}
+              underlineFocusStyle={{borderColor: deepOrangeA400}}
+              onChange={this.handleChangeC}
+              errorText={this.state.errorC}
+            />
           </div>
           
         </div>
