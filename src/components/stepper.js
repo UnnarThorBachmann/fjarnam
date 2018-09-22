@@ -4,28 +4,23 @@ import {
   Stepper,
   StepLabel,
 } from 'material-ui/Stepper';
-//import Media from 'react-media';
-//import Rusl from 'material-ui/svg-icons/action/delete';
-//import Vista from 'material-ui/svg-icons/content/create';
+
 import RaisedButton from 'material-ui/RaisedButton';
 import FlatButton from 'material-ui/FlatButton';
 import AboutTeacherView from './aboutTeacherView.js';
-//import CoursesFormView from './coursesFormView.js';
-//import Nidurstodur from './nidurstodur.js';
-//import NidurstodurSundurlidun from './nidurstodurSundurlidun.js';
-//import NidurstodurSundurlidunMobile from './nidurstodurSundurlidunMobile.js';
-
-//import Endurtaka from 'material-ui/svg-icons/action/autorenew';
+//import AboutTeacherView from './aboutTeacherView.js';
 import IconButton from 'material-ui/IconButton';
 
-//import {connect} from 'react-redux';
 
 class StepperProgress extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      stepIndex: 0,
+    };
 
-  state = {
-    stepIndex: 0,
-    afram: true
-  };
+  }
+
 
 
   handleNext = () => {
@@ -51,7 +46,7 @@ class StepperProgress extends React.Component {
       case 1:
         return (
           <div>
-            <p>Um áfanga</p>
+              <p>Um áfanga: </p>    
           </div>
         )
       case 2:
@@ -65,10 +60,19 @@ class StepperProgress extends React.Component {
     }
   }
 
-  render() {
-    const {finished, stepIndex} = this.state;
-    const contentStyle = {margin: '0 16px'};
+  componentWillReceiveProps(nextProps) {
+    this.setState({...nextProps});
+  }
 
+  componentWillMount() {
+    this.setState({onn: this.props.onn});
+  }
+
+  render() {
+    const {stepIndex,onn} = this.state;
+    const contentStyle = {margin: '0 16px'};
+    console.log(this.state);
+    console.log(this.props);
     return (
       <div style={{width: '100%', maxWidth: 1000, margin: 'auto'}}>
         <Stepper activeStep={stepIndex}>
@@ -84,7 +88,7 @@ class StepperProgress extends React.Component {
         </Stepper>
         <div style={contentStyle}>
         <div>
-              {this.getStepContent(stepIndex)}
+              {this.getStepContent(stepIndex,onn)}
               <div style={{marginTop: 12}}>
                 <FlatButton
                   label="Aftur"
@@ -109,9 +113,4 @@ class StepperProgress extends React.Component {
   }
 }
 
-const mapStateToProps = (state)=>({
-  storeState: {...state}
-});
-
-//export default connect(mapStateToProps)(StepperProgress);
 export default StepperProgress

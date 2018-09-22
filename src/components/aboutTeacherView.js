@@ -33,7 +33,8 @@ const styles = {
   },
   input: {
     paddingBottom: '2%',
-    marginLeft: 'auto',
+    paddingRight: '5%',
+    marginLeft: '30px',
     marginRight: 'auto',
     width: '40%'
   },
@@ -43,7 +44,14 @@ const styles = {
               justifyContent: 'flex-start', 
               borderWidth: '1px',
               borderStyle: 'solid',
-              borderRadius: '10px'
+              borderRadius: '10px',
+              width: '40%'
+  },
+  containerOuter: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    flexDirection: 'row',
+    justifyContent: 'space-around', 
   }
 };
 const ages = ["30 ára-","30-37 ára","38-54 ára","55-60 ára","60 ára+"];
@@ -98,10 +106,8 @@ class AboutTeacherView extends Component {
 
   render() {
     const {onn,vinnumatA,vinnumatC,aldur} = this.props;
-    console.log('önn',onn);
     return (
-      <div>
-        
+      <div style={styles.containerOuter}>   
         <div style={styles.container}>
           <div style={styles.input}>
             <h5 style={{padding: '0%',marginLeft: '0%', marginBottom: '1%', color: deepOrangeA400, fontWeight: 'normal'}}>Önn</h5>
@@ -132,6 +138,9 @@ class AboutTeacherView extends Component {
             }
             </SelectField>
           </div>
+          
+        </div>
+        <div style={styles.container}>
           <div style={styles.input}>
             <TextField
               value={this.state.vinnumatA}
@@ -151,10 +160,10 @@ class AboutTeacherView extends Component {
               onChange={this.handleChangeC}
               errorText={this.state.errorC}
             />
-          </div>
-          
+          </div>        
         </div>
       </div>
+
     );
   }
 }

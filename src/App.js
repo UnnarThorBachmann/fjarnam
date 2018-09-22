@@ -31,7 +31,7 @@ class App extends Component {
     return (
        <MuiThemeProvider muiTheme={muiTheme}>
       <div>
-        <TabView iconColor={deepOrangeA400}/>  
+        <TabView/>  
         <StepperProgress iconColor={deepOrangeA400}/>
 
       </div>
