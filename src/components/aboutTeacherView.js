@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 
-//import ToggleView from './toggleView.js';
 import {setVinnumatA, setVinnumatC, setOnn, setAldur} from '../actions'; 
 
 import {grey900,deepOrangeA400} from 'material-ui/styles/colors';
@@ -119,6 +118,11 @@ class AboutTeacherView extends Component {
               <RadioButton
                 value="haust"
                 label="Haust"
+                style={styles.radioButton}
+              />
+              <RadioButton
+                value="sumar"
+                label="Sumar"
                 style={styles.radioButton}
               />
               

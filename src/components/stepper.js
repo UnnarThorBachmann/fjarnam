@@ -8,7 +8,7 @@ import {
 import RaisedButton from 'material-ui/RaisedButton';
 import FlatButton from 'material-ui/FlatButton';
 import AboutTeacherView from './aboutTeacherView.js';
-//import AboutTeacherView from './aboutTeacherView.js';
+import AboutCoursesView from './aboutCoursesView.js';
 import IconButton from 'material-ui/IconButton';
 
 
@@ -45,9 +45,7 @@ class StepperProgress extends React.Component {
         )
       case 1:
         return (
-          <div>
-              <p>Um áfanga: </p>    
-          </div>
+          <AboutCoursesView/>
         )
       case 2:
         return (
