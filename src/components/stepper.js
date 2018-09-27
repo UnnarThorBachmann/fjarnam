@@ -9,6 +9,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import FlatButton from 'material-ui/FlatButton';
 import AboutTeacherView from './aboutTeacherView.js';
 import AboutCoursesView from './aboutCoursesView.js';
+import Nidurstodur from './nidurstodurView.js';
 import IconButton from 'material-ui/IconButton';
 
 
@@ -49,9 +50,7 @@ class StepperProgress extends React.Component {
         )
       case 2:
         return (
-          <div>
-           <p>Niðurstöður</p>
-          </div>
+          <Nidurstodur/>
         )
       default:
         return 'Kemst ekki';
@@ -63,7 +62,7 @@ class StepperProgress extends React.Component {
   }
 
   componentWillMount() {
-    this.setState({onn: this.props.onn});
+    
   }
 
   render() {

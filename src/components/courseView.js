@@ -21,7 +21,8 @@ const styles = {
               borderWidth: '1px',
               borderStyle: 'solid',
               borderRadius: '10px',
-              width: '100%'
+              width: '100%',
+              marginBottom: '1%'
   },
 
 };
@@ -37,29 +38,41 @@ class CourseView extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      fjoldiByrjun: 39,
-      fjoldiMid: 39, 
-      fjoldiLokaprof: 39
+      fjoldiByrjun: props.fjoldi[0],
+      fjoldiMid: props.fjoldi[1], 
+      fjoldiLokaprof: props.fjoldi[2]
     }
   }
 
-  change0 = (event, index, value) => this.setState({fjoldiByrjun: value});
-  change1 = (event, index, value) => this.setState({fjoldiMid: value});
-  change2 = (event, index, value) => this.setState({fjoldiLokaprof: value});
+  change0 = (event, index, value) => {
+  this.props.breytaFjolda(this.props.afangi,value,0)
 
- 
+  }
+
+  change1 = (event, index, value) => {
+    this.props.breytaFjolda(this.props.afangi,value,1)
+  }
+
+  change2 = (event, index, value) => {
+    this.props.breytaFjolda(this.props.afangi,value,2)
+
+  }
   componentWillReceiveProps(nextProps) {
-    this.setState({...nextProps});
+    this.setState({fjoldiByrjun: nextProps.fjoldi[0],
+                  fjoldiMid: nextProps.fjoldi[1],
+                  fjoldiLokaprof: nextProps.fjoldi[2]
+    });
   }
 
   componentWillMount() {
-    this.setState();
+
   }
 
 
   render() {
     const {fjoldiByrjun, fjoldiMid, fjoldiLokaprof} = this.state;
-
+    const {afangi,fjoldi} =this.props;
+    
     return (
       <div style={styles.containerOuter}>   
         <div style={styles.container}>

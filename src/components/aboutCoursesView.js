@@ -1,12 +1,17 @@
 import React, {Component} from 'react';
 
-import {setVinnumatA, setVinnumatC, setOnn, setAldur} from '../actions'; 
+import {setVinnumatA, setVinnumatC, setOnn, setAldur,setFjoldi,addAfangi,deleteAfangi} from '../actions'; 
 import CourseView from './courseView.js';
 
 import {grey900,deepOrangeA400} from 'material-ui/styles/colors';
 import {connect} from 'react-redux';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
+import ContentAdd from 'material-ui/svg-icons/content/add';
+import ContentRemove from 'material-ui/svg-icons/content/remove';
+
+import IconButton from 'material-ui/IconButton';
+import RaisedButton from 'material-ui/RaisedButton';
 
 const styles = {
   main: {
@@ -58,6 +63,7 @@ const seasons = {'haust': 'Nemendafjöldi 1. nóvember',
                   'vor': 'Nemendafjöldi 20. mars',
                   'sumar': 'Nemendafjöldi 15. júlí'}
 
+
 class AboutCoursesView extends Component {
   constructor(props) {
     super(props);
@@ -65,11 +71,6 @@ class AboutCoursesView extends Component {
       onn: props.onn
     }
   }
-
-  change0 = (event, index, value) => this.setState({fjoldiByrjun: value});
-  change1 = (event, index, value) => this.setState({fjoldiNov: value});
-  change2 = (event, index, value) => this.setState({fjoldiLokaprof: value});
-
  
   componentWillReceiveProps(nextProps) {
     this.setState({onn: nextProps.onn});
@@ -78,14 +79,45 @@ class AboutCoursesView extends Component {
   componentWillMount() {
     this.setState({onn: this.props.onn});
   }
+  breytaFjolda = (afangi,value,index) => {
+    const {dispatch} = this.props;
+    dispatch(setFjoldi(afangi,value,index));
+  }
 
-
+  addAfangi = () => {
+    const {dispatch} = this.props;
+    dispatch(addAfangi());
+  }
+  deleteAfangi = () => {
+   const {dispatch} = this.props;
+   dispatch(deleteAfangi()); 
+  }
   render() {
-    const {onn,vinnumatA,vinnumatC,aldur} = this.props;
+    const {onn,vinnumatA,vinnumatC,aldur,afangar} = this.props;
     
     return (
-      <div style={styles.containerOuter}>   
-        <CourseView onn={seasons[this.state.onn]}/>
+      <div style={styles.containerOuter}>
+      {
+        Object.keys(afangar).map((item)=>
+          <CourseView key={item} onn={seasons[this.state.onn]} afangi={item} fjoldi={afangar[item]} breytaFjolda={this.breytaFjolda}/>
+        )
+      }
+       <div style={{width: '100%'}}>
+              <IconButton  
+                style={{marginRight: 20, float: 'right'}} 
+                iconStyle={{color: deepOrangeA400}}
+                onClick={this.addAfangi}
+              >
+                <ContentAdd />
+              </IconButton>
+              <IconButton 
+                style={{marginRight: 0, float: 'right'}}
+                iconStyle={{color: deepOrangeA400}} 
+                onClick={this.deleteAfangi}
+              >
+                <ContentRemove/>
+              </IconButton>
+              </div>
       </div>
 
     );
@@ -97,7 +129,7 @@ const mapStateToProps = (state)=> ({
     vinnumatC: state.vinnumatC,
     onn: state.onn,
     aldur: state.aldur,
-    
+    afangar: state.afangar
 });
 
 export default connect(mapStateToProps)(AboutCoursesView)
