@@ -49,7 +49,7 @@ export default function reducerinn(state={vinnumatA: 0,
       case SET_VINNUMAT_A:
         return {
             ...state,
-          	vinnumatA: action.vinnumatA,
+          	vinnumatA: action.vinnumat,
           }
       case SET_ALDUR:
         return {
@@ -59,7 +59,7 @@ export default function reducerinn(state={vinnumatA: 0,
       case SET_VINNUMAT_C:
         return {
             ...state,
-            vinnumatC: action.vinnumatC,
+            vinnumatC: action.vinnumat,
           }
       case SET_ONN: 
         return {

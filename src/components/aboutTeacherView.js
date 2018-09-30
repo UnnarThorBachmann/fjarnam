@@ -80,18 +80,24 @@ class AboutTeacherView extends Component {
   }
 
   handleChangeA = (event) => { 
-    this.setState({vinnumatA: event.target.value,
-                  errorA: (isNaN(event.target.value.replace(',','.')) || event.target.value.trim() === '')? 'Verður að hafa tölu': ''
+    this.setState({errorA: (isNaN(event.target.value.replace(',','.')) || event.target.value.trim() === '')? 'Verður að hafa tölu': ''
     });
+    const {dispatch} = this.props;
+    dispatch(setVinnumatA(event.target.value));
   };
 
   handleChangeC = (event) => { 
-    this.setState({vinnumatC: event.target.value,
-                  errorC: (isNaN(event.target.value.replace(',','.')) || event.target.value.trim() === '')? 'Verður að hafa tölu': ''
+    this.setState({errorC: (isNaN(event.target.value.replace(',','.')) || event.target.value.trim() === '')? 'Verður að hafa tölu': ''
     });
+    const {dispatch} = this.props;
+    dispatch(setVinnumatC(event.target.value));
   };
   componentWillReceiveProps(nextProps) {
-    this.setState({...nextProps, errorA: '', errorC: ''});
+    this.setState({aldur: nextProps.aldur,
+                    errorA: '', 
+                    vinnumatA: nextProps.vinnumatA, 
+                    vinnumatC: nextProps.vinnumatC, 
+                    onn: nextProps.onn, errorA: '', errorC: ''});
   }
 
   componentWillMount() {
@@ -105,6 +111,7 @@ class AboutTeacherView extends Component {
 
   render() {
     const {onn,vinnumatA,vinnumatC,aldur} = this.props;
+    console.log(vinnumatA);
     return (
       <div style={styles.containerOuter}>   
         <div style={styles.container}>

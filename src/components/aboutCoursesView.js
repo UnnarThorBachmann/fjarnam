@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 
-import {setVinnumatA, setVinnumatC, setOnn, setAldur,setFjoldi,addAfangi,deleteAfangi} from '../actions'; 
+import {setFjoldi,addAfangi,deleteAfangi} from '../actions'; 
 import CourseView from './courseView.js';
 
 import {grey900,deepOrangeA400} from 'material-ui/styles/colors';
