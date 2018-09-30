@@ -12,7 +12,7 @@ import {
 
 export default function reducerinn(state={vinnumatA: 0, 
                                           vinnumatC: 0, 
-                                          onn: 'vor', aldur: '30 ára-', afangar: {'fj0': [39,39,39]}},action) {
+                                          onn: 'vor', aldur: '30 ára-', afangar: {'fj0': [39,39,39,"3"]}},action) {
   switch(action.type) {
       case DELETE_AFANGI:
         const nyr_afangar = {...state.afangar};
@@ -46,6 +46,7 @@ export default function reducerinn(state={vinnumatA: 0,
           ...state, 
           afangar: {...state.afangar, [action.afangi]: a}
         }
+    
       case SET_VINNUMAT_A:
         return {
             ...state,

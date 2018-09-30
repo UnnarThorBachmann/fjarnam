@@ -83,7 +83,7 @@ class AboutCoursesView extends Component {
     const {dispatch} = this.props;
     dispatch(setFjoldi(afangi,value,index));
   }
-
+  
   addAfangi = () => {
     const {dispatch} = this.props;
     dispatch(addAfangi());
@@ -94,12 +94,17 @@ class AboutCoursesView extends Component {
   }
   render() {
     const {onn,vinnumatA,vinnumatC,aldur,afangar} = this.props;
-    
+    console.log('afangar',afangar);
     return (
       <div style={styles.containerOuter}>
       {
         Object.keys(afangar).map((item)=>
-          <CourseView key={item} onn={seasons[this.state.onn]} afangi={item} fjoldi={afangar[item]} breytaFjolda={this.breytaFjolda}/>
+          <CourseView key={item} 
+                      onn={seasons[this.state.onn]} 
+                      afangi={item} 
+                      fjoldi={afangar[item]} 
+                      breytaFjolda={this.breytaFjolda}
+                      breytaEiningum={this.breytaEiningum}/>
         )
       }
        <div style={{width: '100%'}}>

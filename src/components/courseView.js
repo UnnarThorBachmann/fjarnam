@@ -8,7 +8,7 @@ import MenuItem from 'material-ui/MenuItem';
 const styles = {
 
   input: {
-    paddingBottom: '2%',
+    paddingBottom: '1%',
     paddingRight: '5%',
     marginLeft: '30px',
     marginRight: 'auto',
@@ -40,7 +40,8 @@ class CourseView extends Component {
     this.state = {
       fjoldiByrjun: props.fjoldi[0],
       fjoldiMid: props.fjoldi[1], 
-      fjoldiLokaprof: props.fjoldi[2]
+      fjoldiLokaprof: props.fjoldi[2],
+      einingar: props.fjoldi[3]
     }
   }
 
@@ -57,10 +58,14 @@ class CourseView extends Component {
     this.props.breytaFjolda(this.props.afangi,value,2)
 
   }
+  changeEiningar = (event,index,value) => {
+    this.props.breytaFjolda(this.props.afangi,value,3)
+  }
   componentWillReceiveProps(nextProps) {
     this.setState({fjoldiByrjun: nextProps.fjoldi[0],
                   fjoldiMid: nextProps.fjoldi[1],
-                  fjoldiLokaprof: nextProps.fjoldi[2]
+                  fjoldiLokaprof: nextProps.fjoldi[2],
+                  einingar: nextProps.fjoldi[3]
     });
   }
 
@@ -70,11 +75,11 @@ class CourseView extends Component {
 
 
   render() {
-    const {fjoldiByrjun, fjoldiMid, fjoldiLokaprof} = this.state;
+    const {fjoldiByrjun, fjoldiMid, fjoldiLokaprof,einingar} = this.state;
     const {afangi,fjoldi} =this.props;
     
     return (
-      <div style={styles.containerOuter}>   
+      <div>   
         <div style={styles.container}>
           <div style={styles.input}>
             <SelectField
@@ -118,7 +123,20 @@ class CourseView extends Component {
             }
             </SelectField>
           </div>
-          
+          <div style={styles.input}>
+            <SelectField
+              floatingLabelText="einingar (gamlar)"
+              floatingLabelStyle={{color: deepOrangeA400}}
+              value={einingar}
+              onChange={this.changeEiningar}
+              underlineFocusStyle={{borderColor: deepOrangeA400}}
+              selectedMenuItemStyle={{color: deepOrangeA400}}
+            >
+            { 
+              ["1", "1,5", "2","2,5","3","3,5","4","4,5","5"].map((item)=> item).map((item)=> <MenuItem key={item} value={item} primaryText={item} />)
+            }
+            </SelectField>
+          </div>
         </div>
        
       </div>
