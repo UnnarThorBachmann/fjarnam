@@ -10,7 +10,6 @@ import FlatButton from 'material-ui/FlatButton';
 import AboutTeacherView from './aboutTeacherView.js';
 import AboutCoursesView from './aboutCoursesView.js';
 import Nidurstodur from './nidurstodurView.js';
-import IconButton from 'material-ui/IconButton';
 
 
 class StepperProgress extends React.Component {
@@ -68,8 +67,7 @@ class StepperProgress extends React.Component {
   render() {
     const {stepIndex,onn} = this.state;
     const contentStyle = {margin: '0 16px'};
-    console.log(this.state);
-    console.log(this.props);
+    
     return (
       <div style={{width: '100%', maxWidth: 1000, margin: 'auto'}}>
         <Stepper activeStep={stepIndex}>

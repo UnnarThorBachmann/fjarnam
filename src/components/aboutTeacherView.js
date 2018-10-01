@@ -111,7 +111,6 @@ class AboutTeacherView extends Component {
 
   render() {
     const {onn,vinnumatA,vinnumatC,aldur} = this.props;
-    console.log(vinnumatA);
     return (
       <div style={styles.containerOuter}>   
         <div style={styles.container}>

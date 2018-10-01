@@ -94,7 +94,6 @@ class AboutCoursesView extends Component {
   }
   render() {
     const {onn,vinnumatA,vinnumatC,aldur,afangar} = this.props;
-    console.log('afangar',afangar);
     return (
       <div style={styles.containerOuter}>
       {

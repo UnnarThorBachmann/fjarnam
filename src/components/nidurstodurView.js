@@ -1,8 +1,5 @@
 import React, {Component} from 'react';
 
-//import {setVinnumatA, setVinnumatC, setOnn, setAldur,setFjoldi,addAfangi,deleteAfangi} from '../actions'; 
-import CourseView from './courseView.js';
-
 import {grey900,deepOrangeA400} from 'material-ui/styles/colors';
 import {connect} from 'react-redux';
 import SelectField from 'material-ui/SelectField';
@@ -13,6 +10,14 @@ import {List, ListItem} from 'material-ui/List';
 
 import IconButton from 'material-ui/IconButton';
 import RaisedButton from 'material-ui/RaisedButton';
+import {
+  Table,
+  TableBody,
+  TableHeader,
+  TableHeaderColumn,
+  TableRow,
+  TableRowColumn,
+} from 'material-ui/Table';
 
 const styles = {
   main: {
@@ -56,6 +61,20 @@ const styles = {
   }
 };
 
+  const fjordungarDict = {
+      sumar: {
+        vikur: [6,6,6], 
+        dags: ['1. júlí', '1. ágúst', '1. september']
+      },
+      haust:  {
+        vikur: [4,4,6,4],
+        dags: ['1. október', '1. nóvember', '1. janúar', '1. febrúar']
+      },
+      vor: {
+         vikur: [4,4,4,2,4],
+         dags: ['1. febrúar', '1. mars', '1. apríl', '1. maí', '1. júní'] 
+      }
+  }
 
 
 class Nidurstodur extends Component {
@@ -115,7 +134,6 @@ class Nidurstodur extends Component {
 
   starfshlutfall = (aldur,vinnumatA,vinnumatC) => {
     const skylda = this.vinnuskyldaMedAfslaetti(aldur,vinnumatC);
-    console.log(skylda);
     return (vinnumatA+vinnumatC)/skylda*100;
   }
 
@@ -124,18 +142,70 @@ class Nidurstodur extends Component {
     return tala?tala.toFixed(digit).toString().replace('.',','):0;
   }
 
-  reiknaFjordunga = (onn, afangar, skuldin) => {
-    let fjordungar = {};
-    if (onn === 'sumar') {
-      fjordungar = {...fjordungar, 'vikur': [6,6,6]}
+  reiknaKstundir = (onn,nemendafjoldi,einingar) => {
+    const vikur = fjordungarDict[onn].vikur;
+    let kennslustundir;
+    if (onn==='vor') {
+      kennslustundir = [(1+ (2*einingar-1)*nemendafjoldi[0]/39)*vikur[0]/18,
+                        (1+ (2*einingar-1)*nemendafjoldi[0]/39)*vikur[1]/18,
+                        (1+ (2*einingar-1)*nemendafjoldi[1]/39)*vikur[2]/18,
+                        (1+ (2*einingar-1)*nemendafjoldi[1]/39)*vikur[3]/18,
+                        (1+ (2*einingar-1)*nemendafjoldi[2]/39)*vikur[4]/18
+                      ];
     }
-    else if (onn==='haust'){
-     fjordungar = {...fjordungar, 'vikur': [4,4,6,4]} 
+    else if (onn==='haust') {
+      kennslustundir = [(1+ (2*einingar-1)*nemendafjoldi[0]/39)*vikur[0]/18,
+                        (1+ (2*einingar-1)*nemendafjoldi[0]/39)*vikur[1]/18,
+                        (1+ (2*einingar-1)*nemendafjoldi[1]/39)*vikur[2]/18,
+                        (1+ (2*einingar-1)*nemendafjoldi[2]/39)*vikur[3]/18
+      ];
     }
     else {
-     fjordungar = {...fjordungar, 'vikur': [4,4,4,2,4]}  
-    }
+      kennslustundir = [(1+ (2*einingar-1)*nemendafjoldi[0]/39)*vikur[0]/18,
+                        (1+ (2*einingar-1)*nemendafjoldi[1]/39)*vikur[1]/18,
+                        (1+ (2*einingar-1)*nemendafjoldi[2]/39)*vikur[2]/18,
+      ];
 
+    }
+    
+    return kennslustundir;
+  }
+  extendNemendafjoldi = (onn,nemendafjoldi)=> {
+    if (onn==='vor') {
+      return [nemendafjoldi[0],nemendafjoldi[0], nemendafjoldi[1], nemendafjoldi[1], nemendafjoldi[2]];
+    }
+    else if (onn==='haust') {
+      return [nemendafjoldi[0],nemendafjoldi[0], nemendafjoldi[1], nemendafjoldi[2]]
+
+    }
+    else {
+            return [nemendafjoldi[0], nemendafjoldi[1], nemendafjoldi[2]];
+    }
+  }
+  reiknaFjordunga = (onn, afangar, skuldin) => {
+    let fjordungar = {};
+    fjordungar = {vikur: fjordungarDict[onn].vikur};
+    fjordungar = {...fjordungar, dags: fjordungarDict[onn].dags};
+    
+    let courses = Object.keys(afangar).reduce((acc,curr)=> {
+      const e = parseFloat(afangar[curr][3].replace(',','.'));
+      const n = [afangar[curr][0], afangar[curr][1], afangar[curr][2]];
+      return {...acc, [curr]: {nemendafjoldi: this.extendNemendafjoldi(onn,n), 
+                                einingar: e,
+                                kennslustundir: this.reiknaKstundir(onn,n,e)}}
+    },{});
+
+    fjordungar = {...fjordungar,
+                      afangar: courses, 
+                      kennslustundir: fjordungarDict[onn].vikur.map((item,index)=> Object.keys(courses).reduce((acc,curr)=>{
+                        return {...acc, [curr]: courses[curr].kennslustundir[index]};
+                      },{})),
+                      skuldir: fjordungarDict[onn].vikur.map(item=> [item*skuldin/18]),
+    };
+    fjordungar = {...fjordungar, 
+                  kennslustundirSamtals: fjordungar.kennslustundir.map((obj,index)=> 
+                    Object.keys(obj).reduce((acc,curr)=>{return acc + obj[curr];},0) )};
+    fjordungar = {...fjordungar, dagvinnustundir: fjordungar.kennslustundirSamtals.map(item=> item*1.8*18)}
     return fjordungar
   }
 
@@ -148,9 +218,23 @@ class Nidurstodur extends Component {
     const vinnuskyldan = onn==='sumar'?0:this.vinnuskylda(aldur,vinnumatCTala);
     const vinnumatDagskola = vinnumatATala+vinnumatCTala;
     const fjordungar = this.reiknaFjordunga(onn, afangar,skuldin);
+    let {skuldir, dagvinnustundir} = fjordungar;
+    const lengdFjordunga = fjordungar.dags.length;
+    let yfirvinna = dagvinnustundir.map(item=> 0);
+    for (const i in fjordungar.dags) {
+      const eftirstodvar = skuldir[i].reduce((acc,curr)=>{return acc + curr},0) + dagvinnustundir[i];
 
+      if (eftirstodvar >= 0) {
+        yfirvinna[i] = 1.3*eftirstodvar/1.8;
+      }
+      
+    }
+    
+    
+    const {dags,vikur,kennslustundirSamtals} = fjordungar;
     return (
       <div>
+        <h4>Uppgjör við dagskóla</h4>
         <List>
           <ListItem
             primaryText={`Starfshlutfall: ${this.talaToString(starfshlutfall,1)} %`}
@@ -165,6 +249,54 @@ class Nidurstodur extends Component {
             primaryText={`Skuld: ${this.talaToString(skuldin,1)} klst.`}
           />
         </List>
+        <h4>Uppgjör við fjarnám</h4>
+        <Table>
+        <TableHeader>
+          <TableRow>
+            <TableHeaderColumn>Dagsetning</TableHeaderColumn>
+            <TableHeaderColumn>Vikur</TableHeaderColumn>
+            <TableHeaderColumn>Kennslustundir</TableHeaderColumn>
+
+            <TableHeaderColumn>Dagvinnustundir</TableHeaderColumn>
+            <TableHeaderColumn style={{width: '25%'}}>Sundurliðun skuldir (klst)</TableHeaderColumn>
+
+            <TableHeaderColumn>Skuldir (klst)</TableHeaderColumn>
+            <TableHeaderColumn>Yfirvinna (klst)</TableHeaderColumn>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {
+            dags.map((item,index)=>
+            <TableRow key={index}>
+              <TableRowColumn>{item}</TableRowColumn>
+              <TableRowColumn>{vikur[index]}</TableRowColumn>
+              <TableRowColumn>{kennslustundirSamtals[index].toFixed(1)}</TableRowColumn>              
+
+              <TableRowColumn>{dagvinnustundir[index].toFixed(1)}</TableRowColumn>              
+              <TableRowColumn style={{width: '25%'}}>
+                {skuldir[index].reduce((acc,curr)=> {return acc + `${curr.toFixed(1)}`},'')}
+              </TableRowColumn>
+
+              <TableRowColumn>{skuldir[index].reduce((acc,curr)=> {return acc +curr},0).toFixed(1)}</TableRowColumn>
+              <TableRowColumn>{yfirvinna[index].toFixed(1)}</TableRowColumn>
+            </TableRow>)
+          }
+          <TableRow key={-1}>
+              <TableRowColumn>Samtals</TableRowColumn>
+              <TableRowColumn>{vikur.reduce((acc,curr)=> {return acc +curr},0)}</TableRowColumn>
+              <TableRowColumn>{kennslustundirSamtals.reduce((acc,curr)=> {return acc +curr},0)}</TableRowColumn>              
+
+              <TableRowColumn>{dagvinnustundir.reduce((acc,curr)=> {return acc +curr},0).toFixed(1)}</TableRowColumn>              
+              <TableRowColumn style={{width: '25%'}}>
+                {}
+              </TableRowColumn>
+
+              <TableRowColumn>{(Math.min(dagvinnustundir.reduce((acc,curr)=> {return acc +curr},0)+skuldin,0)).toFixed(1)}</TableRowColumn>
+              <TableRowColumn>{yfirvinna.reduce((acc,curr)=> {return acc +curr},0).toFixed(1)}</TableRowColumn>
+            </TableRow>)
+        </TableBody>
+      </Table>
+      
       </div>
 
     );

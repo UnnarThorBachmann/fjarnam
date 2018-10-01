@@ -17,7 +17,7 @@ export default function reducerinn(state={vinnumatA: 0,
       case DELETE_AFANGI:
         const nyr_afangar = {...state.afangar};
         const m = Object.keys(state.afangar).length;
-        if (m == 1) {
+        if (m === 1) {
           return {...state}
         }
         else {
@@ -27,7 +27,7 @@ export default function reducerinn(state={vinnumatA: 0,
             ...state,
             afangar: {
               ...nyr_afangar
-            }
+            },
           }
         }
         
@@ -36,12 +36,11 @@ export default function reducerinn(state={vinnumatA: 0,
         const heiti = 'fj' + n.toString();
         return {
           ...state,
-          afangar: {...state.afangar, [heiti]: [39,39,39]}
+          afangar: {...state.afangar, [heiti]: [39,39,39,"3"]}
         }
       case SET_FJOLDI: 
         let a = state.afangar[action.afangi];
         a[action.index] = action.value;
-
         return {
           ...state, 
           afangar: {...state.afangar, [action.afangi]: a}
