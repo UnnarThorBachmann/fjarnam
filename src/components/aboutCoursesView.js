@@ -3,15 +3,12 @@ import React, {Component} from 'react';
 import {setFjoldi,addAfangi,deleteAfangi} from '../actions'; 
 import CourseView from './courseView.js';
 
-import {grey900,deepOrangeA400} from 'material-ui/styles/colors';
+import {deepOrangeA400} from 'material-ui/styles/colors';
 import {connect} from 'react-redux';
-import SelectField from 'material-ui/SelectField';
-import MenuItem from 'material-ui/MenuItem';
 import ContentAdd from 'material-ui/svg-icons/content/add';
 import ContentRemove from 'material-ui/svg-icons/content/remove';
 
 import IconButton from 'material-ui/IconButton';
-import RaisedButton from 'material-ui/RaisedButton';
 
 const styles = {
   main: {
@@ -93,7 +90,7 @@ class AboutCoursesView extends Component {
    dispatch(deleteAfangi()); 
   }
   render() {
-    const {onn,vinnumatA,vinnumatC,aldur,afangar} = this.props;
+    const {afangar} = this.props;
     return (
       <div style={styles.containerOuter}>
       {

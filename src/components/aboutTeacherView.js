@@ -2,14 +2,11 @@ import React, {Component} from 'react';
 
 import {setVinnumatA, setVinnumatC, setOnn, setAldur} from '../actions'; 
 
-import {grey900,deepOrangeA400} from 'material-ui/styles/colors';
+import {deepOrangeA400} from 'material-ui/styles/colors';
 import {connect} from 'react-redux';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
-import FontIcon from 'material-ui/FontIcon';
-import ActionFavorite from 'material-ui/svg-icons/action/favorite';
-import ActionFavoriteBorder from 'material-ui/svg-icons/action/favorite-border';
 import TextField from 'material-ui/TextField';
 
 const styles = {
@@ -97,7 +94,8 @@ class AboutTeacherView extends Component {
                     errorA: '', 
                     vinnumatA: nextProps.vinnumatA, 
                     vinnumatC: nextProps.vinnumatC, 
-                    onn: nextProps.onn, errorA: '', errorC: ''});
+                    onn: nextProps.onn, 
+                    errorC: ''});
   }
 
   componentWillMount() {
@@ -110,7 +108,6 @@ class AboutTeacherView extends Component {
 
 
   render() {
-    const {onn,vinnumatA,vinnumatC,aldur} = this.props;
     return (
       <div style={styles.containerOuter}>   
         <div style={styles.container}>

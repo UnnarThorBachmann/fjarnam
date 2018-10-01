@@ -1,15 +1,8 @@
 import React, {Component} from 'react';
 
-import {grey900,deepOrangeA400} from 'material-ui/styles/colors';
 import {connect} from 'react-redux';
-import SelectField from 'material-ui/SelectField';
-import MenuItem from 'material-ui/MenuItem';
-import ContentAdd from 'material-ui/svg-icons/content/add';
-import ContentRemove from 'material-ui/svg-icons/content/remove';
 import {List, ListItem} from 'material-ui/List';
 
-import IconButton from 'material-ui/IconButton';
-import RaisedButton from 'material-ui/RaisedButton';
 import {
   Table,
   TableBody,
@@ -18,48 +11,6 @@ import {
   TableRow,
   TableRowColumn,
 } from 'material-ui/Table';
-
-const styles = {
-  main: {
-    className: 'gluggar',
-    marginLeft: '1%',
-    marginRight: '1%',
-    marginTop: '1%',
-    borderStyle: 'solid',
-    paddingLeft: '3%',
-    paddingRight: '3%',
-    paddingTop: '1%',
-    paddingBottom: '1%',
-    borderWidth: '1px',
-    borderRadius: '10px',
-    width: '20%',
-  },
-  radioButton:  {
-    color: deepOrangeA400
-  },
-  input: {
-    paddingBottom: '2%',
-    paddingRight: '5%',
-    marginLeft: '30px',
-    marginRight: 'auto',
-    width: '20%'
-  },
-  container: {display: 'flex',
-              flexWrap: 'wrap',
-              flexDirection: 'row',
-              justifyContent: 'flex-start', 
-              borderWidth: '1px',
-              borderStyle: 'solid',
-              borderRadius: '10px',
-              width: '100%'
-  },
-  containerOuter: {
-    display: 'flex',
-    flexWrap: 'wrap',
-    flexDirection: 'row',
-    justifyContent: 'space-around', 
-  }
-};
 
   const fjordungarDict = {
       sumar: {
@@ -219,7 +170,6 @@ class Nidurstodur extends Component {
     const vinnumatDagskola = vinnumatATala+vinnumatCTala;
     const fjordungar = this.reiknaFjordunga(onn, afangar,skuldin);
     let {skuldir, dagvinnustundir} = fjordungar;
-    const lengdFjordunga = fjordungar.dags.length;
     let yfirvinna = dagvinnustundir.map(item=> 0);
     for (const i in fjordungar.dags) {
       const eftirstodvar = skuldir[i].reduce((acc,curr)=>{return acc + curr},0) + dagvinnustundir[i];

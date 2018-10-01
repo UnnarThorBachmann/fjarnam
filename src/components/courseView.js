@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 
 
-import {grey900,deepOrangeA400} from 'material-ui/styles/colors';
+import {deepOrangeA400} from 'material-ui/styles/colors';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 
@@ -76,7 +76,6 @@ class CourseView extends Component {
 
   render() {
     const {fjoldiByrjun, fjoldiMid, fjoldiLokaprof,einingar} = this.state;
-    const {afangi,fjoldi} =this.props;
     
     return (
       <div>   
